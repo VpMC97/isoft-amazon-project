@@ -1,6 +1,6 @@
-import {defineconfig} from 'vite';
+import {defineConfig} from 'vite';
 
-export default defineconfig({
+export default defineConfig({
     base: "/isoft-amazon-project",
     
 });
