@@ -1,24 +1,23 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+document.querySelector('#search-button').addEventListener('click', () => {
+  const query = document.querySelector('#search-input').value; 
+  if (!query) return;
 
-setupCounter(document.querySelector('#counter'))
+  axios.get(`http://localhost:3001/api/scrape?keyword=${encodeURIComponent(query)}`)
+    .then(response => {
+      const results = response.data;
+      document.querySelector('#searched').innerHTML = results.map(item => `
+        <div>
+          <img src="${item.img}" width="100"/>
+          <h3>${item.title}</h3>
+          <p>Rating: ${item.rating}</p>
+          <p>Reviews: ${item.reviews}</p>
+        </div>
+      `).join('');
+    })
+    .catch(error => {
+      console.error('Error fetching search:', error);
+      document.querySelector('#searched').innerHTML = 'Try again later.';
+    });
+});
