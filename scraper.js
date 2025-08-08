@@ -10,6 +10,7 @@ app.get('/api/scrape', async (req, res) => {
   const keyword = req.query.keyword;
   if (!keyword) return res.status(400).json({ error: 'Keyword required' });
 
+
   try {
     console.log(`Scraping for keyword: ${keyword}`);
     
@@ -51,15 +52,30 @@ app.get('/api/scrape', async (req, res) => {
 
     products.forEach((item, index) => {
       try {
-        const title = item.querySelector('h2 span, .a-size-medium, .a-text-normal')?.textContent?.trim() || '';
-        const rating = item.querySelector('.a-icon-alt, .a-icon-star-small')?.textContent?.trim() || '';
+        const title = item.querySelector('h2 span')?.textContent?.trim() || '';
+        const rating = item.querySelector('.a-icon-alt, .a-icon-star-small')?.textContent?.trim() || null;
         const reviews = item.querySelector('.a-size-base.s-underline-text, .a-size-base')?.textContent?.trim() || '';
-        const img = item.querySelector('img.s-image, img')?.src || '';
-        const price = item.querySelector('.a-price-whole, .a-price .a-offscreen')?.textContent?.trim() || '';
-        
-        if (title) {
+        const img = item.querySelector('img')?.src || null;
+        const priceElement = item.querySelector('.a-price-whole, .a-price .a-offscreen, .a-price-range');
+        const price = priceElement?.textContent?.trim() || '';
+
+        // Filtrar elementos que no son productos reales
+        const isValidProduct = 
+          title && title.length > 10 &&
+          img &&
+          img !== null &&
+          !img.includes('data:image/svg+xml') && // Excluir cualquier SVG
+          price && price.length > 0 && 
+          !title.toLowerCase().includes('sponsored') && 
+          !title.toLowerCase().includes('advertisement') &&
+          !title.toLowerCase().includes('check each product page') &&
+          !title.toLowerCase().includes('price and other details');
+
+        if (isValidProduct) {
           items.push({ title, rating, reviews, img, price });
           console.log(`Product ${index + 1}: ${title.substring(0, 50)}...`);
+        } else {
+          console.log(`Skipping item ${index + 1}: Not a valid product (title: "${title?.substring(0, 30)}...", hasImg: ${!!img}, hasPrice: ${!!price}, price: "${price}")`);
         }
       } catch (err) {
         console.error(`Error parsing product ${index}:`, err.message);

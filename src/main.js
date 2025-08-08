@@ -8,14 +8,14 @@ document.querySelector('#search-button').addEventListener('click', () => {
     .then(response => {
       const results = response.data;
       document.querySelector('#searched').innerHTML = results.map(item => `
-        <div style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px;">
-          <img src="${item.img}" width="100" style="border-radius: 4px;"/>
-          <h3>${item.title}</h3>
-          <p><strong>Price:</strong> ${item.price || 'N/A'}</p>
-          <p><strong>Rating:</strong> ${item.rating || 'N/A'}</p>
-          <p><strong>Reviews:</strong> ${item.reviews || 'N/A'}</p>
-        </div>
-      `).join('');
+          <div class="searched-card">
+            <img src="${item.img}" alt="Product image"/>
+            <h3>${item.title}</h3>
+            <p><strong>Price:</strong> ${item.price || 'N/A'}</p>
+            <p><strong>Rating:</strong> ${item.rating || 'N/A'}</p>
+            <p><strong>Reviews:</strong> ${item.reviews || 'N/A'}</p>
+          </div>
+        `).join('');
     })
     .catch(error => {
       console.error('Error fetching search:', error);
