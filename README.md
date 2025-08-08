@@ -52,3 +52,6 @@ npm run dev
 - **Frontend**: Vite, Vanilla JavaScript
 - **Backend**: Express.js, JSDOM, Axios
 - **Scraping**: JSDOM para parsing HTML
+
+
+en desarrollo: https://vpmc97.github.io/isoft-amazon-project/
