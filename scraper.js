@@ -3,17 +3,19 @@ import axios from 'axios';
 import { JSDOM } from 'jsdom';
 import cors from 'cors';
 
+// Configuración del servidor Express
 const app = express();
 app.use(cors());
 
+// Endpoint principal para scraping de Amazon
 app.get('/api/scrape', async (req, res) => {
   const keyword = req.query.keyword;
   if (!keyword) return res.status(400).json({ error: 'Keyword required' });
 
-
   try {
     console.log(`Scraping for keyword: ${keyword}`);
     
+    // Realizar petición HTTP a Amazon con headers que simulan un navegador real
     const response = await axios.get(`https://www.amazon.com/s?k=${encodeURIComponent(keyword)}`, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
@@ -24,7 +26,7 @@ app.get('/api/scrape', async (req, res) => {
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1'
       },
-      timeout: 10000
+      timeout: 10000 // Timeout para evitar bloqueos
     });
     
     console.log(`Response status: ${response.status}`);
@@ -45,8 +47,7 @@ app.get('/api/scrape', async (req, res) => {
     for (const selector of productSelectors) {
       products = document.querySelectorAll(selector);
       if (products.length > 0) {
-        console.log(`Found ${products.length} products with selector: ${selector}`);
-        break;
+        break; // Usar el primer selector que encuentre productos
       }
     }
 
@@ -71,18 +72,15 @@ app.get('/api/scrape', async (req, res) => {
           !title.toLowerCase().includes('check each product page') &&
           !title.toLowerCase().includes('price and other details');
 
+        // Agregar producto al array si pasa todas las validaciones
         if (isValidProduct) {
           items.push({ title, rating, reviews, img, price });
-          console.log(`Product ${index + 1}: ${title.substring(0, 50)}...`);
-        } else {
-          console.log(`Skipping item ${index + 1}: Not a valid product (title: "${title?.substring(0, 30)}...", hasImg: ${!!img}, hasPrice: ${!!price}, price: "${price}")`);
         }
       } catch (err) {
         console.error(`Error parsing product ${index}:`, err.message);
       }
     });
-
-    console.log(`Successfully parsed ${items.length} products`);
+    
     res.json(items);
   } catch (err) {
     console.error('Scraping error:', err.message);

@@ -2,11 +2,14 @@ import './style.css'
 
 document.querySelector('#search-button').addEventListener('click', () => {
   const query = document.querySelector('#search-input').value; 
-  if (!query) return;
+  if (!query) return; // Salir si no hay término de búsqueda
 
+  // Realizar petición al API del scraper backend
   window.axios.get(`http://localhost:3001/api/scrape?keyword=${encodeURIComponent(query)}`)
     .then(response => {
       const results = response.data;
+      
+      // Generar HTML para mostrar los productos encontrados
       document.querySelector('#searched').innerHTML = results.map(item => `
           <div class="searched-card">
             <img src="${item.img}" alt="Product image"/>

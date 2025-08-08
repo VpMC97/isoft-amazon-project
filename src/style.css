@@ -1,3 +1,4 @@
+/* Variables CSS globales para el tema de la aplicación */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -75,6 +76,7 @@ input[type="text"]:focus {
   outline: none;
 }
 
+/* Estilos para las tarjetas de productos */
 .searched-card {
   border: 1px solid #ff9900;
   background-color: #1a1a1a;
@@ -117,6 +119,7 @@ input[type="text"]:focus {
   color: #ff9900;
 }
 
+/* Contenedor para organizar las tarjetas en grid */
 .searched-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -124,7 +127,7 @@ input[type="text"]:focus {
   margin-top: 2rem;
 }
 
-
+/* Estilos para el tema claro (cuando el usuario prefiere tema claro) */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
