@@ -29,9 +29,6 @@ app.get('/api/scrape', async (req, res) => {
       timeout: 10000 // Timeout para evitar bloqueos
     });
     
-    console.log(`Response status: ${response.status}`);
-    console.log(`Response length: ${response.data.length}`);
-
     const dom = new JSDOM(response.data);
     const document = dom.window.document;
     const items = [];
@@ -77,13 +74,13 @@ app.get('/api/scrape', async (req, res) => {
           items.push({ title, rating, reviews, img, price });
         }
       } catch (err) {
-        console.error(`Error parsing product ${index}:`, err.message);
+        //console.error(`Error parsing product ${index}:`, err.message);
       }
     });
     
     res.json(items);
+
   } catch (err) {
-    console.error('Scraping error:', err.message);
     res.status(500).json({ 
       error: 'Scraping failed', 
       details: err.message,

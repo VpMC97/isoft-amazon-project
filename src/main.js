@@ -21,7 +21,6 @@ document.querySelector('#search-button').addEventListener('click', () => {
         `).join('');
     })
     .catch(error => {
-      console.error('Error fetching search:', error);
       document.querySelector('#searched').innerHTML = 'Try again later.';
     });
 });

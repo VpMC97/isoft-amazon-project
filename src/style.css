@@ -130,10 +130,16 @@ input[type="text"]:focus {
 /* Estilos para el tema claro (cuando el usuario prefiere tema claro) */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #1a1a1a;
     background-color: #ffffff;
   }
-  button {
-    background-color: #f9f9f9;
+  .search-button {
+    background-color: #ff9900;
   }
+  .searched-card{
+    background-color: #f0f4fc;
+    color: #1a1a1a;
+    border: 1px solid #ccc;
+  }
+
 }
