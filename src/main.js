@@ -17,6 +17,9 @@ document.querySelector('#search-button').addEventListener('click', () => {
             <p><strong>Price:</strong> ${item.price || 'N/A'}</p>
             <p><strong>Rating:</strong> ${item.rating || 'N/A'}</p>
             <p><strong>Reviews:</strong> ${item.reviews || 'N/A'}</p>
+            <a href="${item.link}" target="_blank">
+              <button class="card-button">View on Amazon</button>  
+            </a>
           </div>
         `).join('');
     })

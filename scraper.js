@@ -13,8 +13,6 @@ app.get('/api/scrape', async (req, res) => {
   if (!keyword) return res.status(400).json({ error: 'Keyword required' });
 
   try {
-    console.log(`Scraping for keyword: ${keyword}`);
-    
     // Realizar petición HTTP a Amazon con headers que simulan un navegador real
     const response = await axios.get(`https://www.amazon.com/s?k=${encodeURIComponent(keyword)}`, {
       headers: {
@@ -48,7 +46,7 @@ app.get('/api/scrape', async (req, res) => {
       }
     }
 
-    products.forEach((item, index) => {
+    products.forEach((item) => {
       try {
         const title = item.querySelector('h2 span')?.textContent?.trim() || '';
         const rating = item.querySelector('.a-icon-alt, .a-icon-star-small')?.textContent?.trim() || null;
@@ -56,11 +54,15 @@ app.get('/api/scrape', async (req, res) => {
         const img = item.querySelector('img')?.src || null;
         const priceElement = item.querySelector('.a-price-whole, .a-price .a-offscreen, .a-price-range');
         const price = priceElement?.textContent?.trim() || '';
-
+        let link = item.querySelector('a.a-link-normal')?.href || '';
+        if (link && !link.startsWith('http')) {
+          link = 'https://www.amazon.com' + link;
+        }
         // Filtrar elementos que no son productos reales
         const isValidProduct = 
           title && title.length > 10 &&
           img &&
+          link &&
           img !== null &&
           !img.includes('data:image/svg+xml') && // Excluir cualquier SVG
           price && price.length > 0 && 
@@ -71,7 +73,7 @@ app.get('/api/scrape', async (req, res) => {
 
         // Agregar producto al array si pasa todas las validaciones
         if (isValidProduct) {
-          items.push({ title, rating, reviews, img, price });
+          items.push({ title, rating, reviews, img, price, link });
         }
       } catch (err) {
         //console.error(`Error parsing product ${index}:`, err.message);

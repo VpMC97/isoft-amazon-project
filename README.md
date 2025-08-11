@@ -2,15 +2,18 @@
 
 Un scraper web para buscar productos en Amazon.
 
+¡Pruébalo! https://vpmc97.github.io/isoft-amazon-project/
+
 ## Instalación
 
+### Clona el repositorio, una vez abierto el proyecto ejecuta:
 ```bash
 npm install
 ```
 
 ## Uso
 
-### Opción 1: Ejecutar ambos servicios simultáneamente
+### Ejecutar ambos servicios simultáneamente
 ```bash
 npm start
 ```
@@ -31,5 +34,7 @@ npm start
 - **Backend**: Express.js, JSDOM, Axios
 - **Scraping**: JSDOM para parsing HTML
 
+## Contacto
 
-Prueba la página en desarrollo: https://vpmc97.github.io/isoft-amazon-project/
+Este proyecto es parte de mi portafolio, te invito a hecharle un vistazo :D
+💗 https://vpmc97.github.io/
