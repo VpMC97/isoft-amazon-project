@@ -6,4 +6,4 @@
             <p><strong>Rating:</strong> ${t.rating||"N/A"}</p>
             <p><strong>Reviews:</strong> ${t.reviews||"N/A"}</p>
           </div>
-        `).join("")}).catch(o=>{console.error("Error fetching search:",o),document.querySelector("#searched").innerHTML="Try again later."})});
+        `).join("")}).catch(o=>{document.querySelector("#searched").innerHTML="Try again later."})});
