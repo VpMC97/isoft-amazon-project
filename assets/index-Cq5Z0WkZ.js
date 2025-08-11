@@ -5,5 +5,8 @@
             <p><strong>Price:</strong> ${t.price||"N/A"}</p>
             <p><strong>Rating:</strong> ${t.rating||"N/A"}</p>
             <p><strong>Reviews:</strong> ${t.reviews||"N/A"}</p>
+            <a href="${t.link}" target="_blank">
+              <button class="card-button">View on Amazon</button>  
+            </a>
           </div>
         `).join("")}).catch(o=>{document.querySelector("#searched").innerHTML="Try again later."})});
